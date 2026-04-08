@@ -19,11 +19,21 @@ export class TransactionService extends Subject {
     return created;
   }
 
-  async getUserTransactions(userId: string): Promise<BaseTransaction[]> {
-    return this.transactionRepository.findByUserId(userId);
+  async getUserTransactions(userId: string, filters?: { startDate?: Date; endDate?: Date; categoryId?: string }): Promise<BaseTransaction[]> {
+    return this.transactionRepository.findByUserId(userId, filters);
+  }
+
+  async updateTransaction(id: string, updates: Partial<BaseTransaction>): Promise<BaseTransaction> {
+    const updated = await this.transactionRepository.update(id, updates);
+    this.notify(updated);
+    return updated;
   }
 
   async deleteTransaction(id: string): Promise<boolean> {
-    return this.transactionRepository.delete(id);
+    const deleted = await this.transactionRepository.delete(id);
+    if (deleted) {
+      this.notify(null);
+    }
+    return deleted;
   }
 }

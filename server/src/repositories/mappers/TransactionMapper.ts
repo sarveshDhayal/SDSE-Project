@@ -1,4 +1,4 @@
-import { type Transaction as PrismaTransaction } from "@prisma/client";
+import { type Transaction as PrismaTransaction, type Category as PrismaCategory } from "@prisma/client";
 import { BaseTransaction } from "../../models/BaseTransaction.js";
 import { IncomeTransaction } from "../../models/IncomeTransaction.js";
 import { ExpenseTransaction } from "../../models/ExpenseTransaction.js";
