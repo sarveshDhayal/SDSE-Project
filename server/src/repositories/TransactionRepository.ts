@@ -2,6 +2,7 @@ import { type IBaseRepository } from "./BaseRepository.js";
 import { BaseTransaction } from "../models/BaseTransaction.js";
 import { PrismaService } from "../services/PrismaService.js";
 import { TransactionMapper } from "./mappers/TransactionMapper.js";
+import { type Transaction as PrismaTransaction } from "@prisma/client";
 
 export class TransactionRepository implements IBaseRepository<BaseTransaction> {
   private prisma = PrismaService.getInstance();
@@ -37,11 +38,24 @@ export class TransactionRepository implements IBaseRepository<BaseTransaction> {
 
   async findAll(): Promise<BaseTransaction[]> {
     const items = await this.prisma.transaction.findMany();
-    return items.map(item => TransactionMapper.toDomain(item));
+    return items.map((item: PrismaTransaction) => TransactionMapper.toDomain(item));
   }
 
-  async findByUserId(userId: string): Promise<BaseTransaction[]> {
-    const items = await this.prisma.transaction.findMany({ where: { userId } });
-    return items.map(item => TransactionMapper.toDomain(item));
+  async findByUserId(userId: string, filters?: { startDate?: Date; endDate?: Date; categoryId?: string }): Promise<BaseTransaction[]> {
+    const where: any = { userId };
+    
+    if (filters) {
+      if (filters.startDate || filters.endDate) {
+        where.date = {};
+        if (filters.startDate) where.date.gte = filters.startDate;
+        if (filters.endDate) where.date.lte = filters.endDate;
+      }
+      if (filters.categoryId) {
+        where.categoryId = filters.categoryId;
+      }
+    }
+
+    const items = await this.prisma.transaction.findMany({ where });
+    return items.map((item: PrismaTransaction) => TransactionMapper.toDomain(item));
   }
 }
