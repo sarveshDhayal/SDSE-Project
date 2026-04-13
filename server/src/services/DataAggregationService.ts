@@ -27,4 +27,13 @@ export class DataAggregationService {
     const savings = totalIncome - totalExpense;
     return (savings / totalIncome) * 100;
   }
+
+  /**
+   * Calculates a simple financial health score (0-100) based on savings rate
+   */
+  public calculateFinancialScore(savingsRate: number): number {
+    // Basic scoring logic: 20% savings rate = 100 score (clamped)
+    const score = (savingsRate / 20) * 100;
+    return Math.min(Math.max(score, 0), 100);
+  }
 }
