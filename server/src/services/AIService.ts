@@ -27,10 +27,15 @@ export class AIService extends BaseService {
     // 1. Spending Overview
     if (q.includes("spend") || q.includes("expense") || q.includes("money go")) {
       const topCategory = this.getTopCategory(report.categoryBreakdown);
-      return `This month, your total expenses are $${report.totalExpense.toLocaleString()}. Your biggest spending category is ${topCategory.name} ($${topCategory.value.toLocaleString()}).`;
+      return `This month, your total expenses are ${this.formatCurrency(report.totalExpense)}. Your biggest spending category is ${topCategory.name} (${this.formatCurrency(topCategory.value)}).`;
     }
 
-    // 2. Savings & Income
+    // 2. Income details
+    if (q.includes("earn") || q.includes("income") || q.includes("salary")) {
+      return `You have earned a total of ${this.formatCurrency(report.totalIncome)} this month. This provides a solid foundation for your monthly budget.`;
+    }
+
+    // 3. Savings & Income
     if (q.includes("save") || q.includes("savings") || q.includes("saving rate")) {
       const rate = (report.savingsRate * 100).toFixed(0);
       let advice = "";
@@ -39,13 +44,13 @@ export class AIService extends BaseService {
       } else {
         advice = " You're doing great! Keep maintaining this saving momentum.";
       }
-      return `Your current saving rate is ${rate}%. You've saved $${report.balance.toLocaleString()} so far this month.${advice}`;
+      return `Your current saving rate is ${rate}%. You've saved ${this.formatCurrency(report.balance)} so far this month.${advice}`;
     }
 
-    // 3. Status / How am I doing
+    // 4. Status / How am I doing
     if (q.includes("how am i doing") || q.includes("status") || q.includes("summary")) {
       const status = report.balance >= 0 ? "surplus" : "deficit";
-      return `Profile Summary: You are currently in a financial ${status}. With an income of $${report.totalIncome.toLocaleString()} and expenses reaching $${report.totalExpense.toLocaleString()}, your net position is ${report.balance >= 0 ? 'positive' : 'negative'}.`;
+      return `Profile Summary: You are currently in a financial ${status}. With an income of ${this.formatCurrency(report.totalIncome)} and expenses reaching ${this.formatCurrency(report.totalExpense)}, your net position is ${report.balance >= 0 ? 'positive' : 'negative'}.`;
     }
 
     // 4. Budget check (simplified)
@@ -57,6 +62,9 @@ export class AIService extends BaseService {
     return "I am Aura, your FinAura assistant. I can help you with spending analysis, savings goals, and monthly summaries. Try asking: 'Where is my money going?' or 'What is my saving rate?'";
   }
 
+  /**
+   * Identifies the category with the highest expenditure.
+   */
   private getTopCategory(breakdown: any): { name: string, value: number } {
     let top = { name: "None", value: 0 };
     for (const cat in breakdown) {

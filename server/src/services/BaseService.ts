@@ -26,4 +26,11 @@ export abstract class BaseService {
     this.log(`ERROR in ${context}`, error?.message || error);
     throw error;
   }
+
+  /**
+   * formatCurrency - Formats a numeric value as a currency string.
+   */
+  protected formatCurrency(amount: number): string {
+    return `$${amount.toLocaleString()}`;
+  }
 }
