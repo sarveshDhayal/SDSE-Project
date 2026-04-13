@@ -227,7 +227,7 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
 
         <button
           onClick={() => this.setModalOpen(true)}
-          className="fixed bottom-24 right-6 z-30 w-16 h-16 rounded-2xl bg-[var(--brand-accent)] text-[var(--brand-primary)] flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all border-4 border-white"
+          className="fixed bottom-44 right-6 z-30 w-16 h-16 rounded-2xl bg-[var(--brand-accent)] text-[var(--brand-primary)] flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all border-4 border-white"
         >
           <Plus size={32} strokeWidth={3}/>
         </button>
