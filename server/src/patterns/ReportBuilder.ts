@@ -3,52 +3,54 @@ import { BaseTransaction } from "../models/BaseTransaction.js";
 import { DataAggregationService } from "../services/DataAggregationService.js";
 
 export class ReportBuilder {
-  private report: Report;
+  private id: string;
+  private userId: string;
+  private startDate: Date = new Date();
+  private endDate: Date = new Date();
+  private transactions: BaseTransaction[] = [];
   private aggregationService: DataAggregationService;
 
   constructor(id: string, userId: string) {
-    // Initial partial state
-    this.report = new Report(id, userId, new Date(), new Date());
+    this.id = id;
+    this.userId = userId;
     this.aggregationService = new DataAggregationService();
   }
 
   public setPeriod(startDate: Date, endDate: Date): ReportBuilder {
-    // We recreate for simplicity or use setters if available. 
-    // Since Report is OO, we'll use a hack or update the existing private fields via methods.
-    // Let's assume we can update them or just store them in the builder until build().
-    // Actually, let's update the Report model with setters for these if needed, 
-    // or just pass them to the builder constructor.
-    // Refined approach: Builder holds state, produces Report at build().
-    
-    // For now, I'll update the existing report instance's state.
-    (this.report as any)._startDate = startDate;
-    (this.report as any)._endDate = endDate;
+    this.startDate = startDate;
+    this.endDate = endDate;
     return this;
   }
 
   public addTransactions(transactions: BaseTransaction[]): ReportBuilder {
-    transactions.forEach(t => this.report.addTransaction(t));
+    this.transactions.push(...transactions);
     return this;
   }
 
   public calculateStatistics(): ReportBuilder {
-    const savingsRate = this.aggregationService.calculateSavingsRate(
-      this.report.totalIncome,
-      this.report.totalExpense
-    );
-    this.report.savingsRate = savingsRate;
+    // Handled in build()
     return this;
   }
 
   public aggregateCategoryBreakdown(): ReportBuilder {
-    const breakdown = this.aggregationService.aggregateByCategory(
-      this.report.transactions
-    );
-    this.report.categoryBreakdown = breakdown;
+    // Handled in build()
     return this;
   }
 
   public build(): Report {
-    return this.report;
+    const report = new Report(this.id, this.userId, this.startDate, this.endDate);
+    
+    this.transactions.forEach(t => report.addTransaction(t));
+
+    const breakdown = this.aggregationService.aggregateByCategory(report.transactions);
+    report.categoryBreakdown = breakdown;
+
+    const savingsRate = this.aggregationService.calculateSavingsRate(
+      report.totalIncome,
+      report.totalExpense
+    );
+    report.savingsRate = savingsRate;
+
+    return report;
   }
 }

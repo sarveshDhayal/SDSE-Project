@@ -13,4 +13,12 @@ export class Category {
   get name(): string { return this._name; }
   set name(value: string) { this._name = value; }
   get userId(): string { return this._userId; }
+
+  toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+      userId: this.userId
+    };
+  }
 }

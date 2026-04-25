@@ -19,4 +19,14 @@ export class Budget {
   get categoryId(): string { return this._categoryId; }
   get userId(): string { return this._userId; }
   get period(): string { return this._period; }
+
+  toJSON() {
+    return {
+      id: this.id,
+      amount: this.amount,
+      categoryId: this.categoryId,
+      userId: this.userId,
+      period: this.period
+    };
+  }
 }

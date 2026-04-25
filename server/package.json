@@ -5,6 +5,7 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
+    "debug-db": "tsx src/debug_db.ts",
     "generate": "prisma generate",
     "db:push": "prisma db push",
     "test": "vitest run"

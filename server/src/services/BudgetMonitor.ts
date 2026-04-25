@@ -13,10 +13,9 @@ export class BudgetMonitor extends Subject implements Observer {
     this.transactionRepository = new TransactionRepository();
   }
 
-  async update(transaction: BaseTransaction | null): Promise<void> {
-    // If transaction is null, it means something was deleted/updated. 
-    // We could re-check all budgets, but for now we only react to new/updated expenses.
-    if (!transaction || transaction.getType() !== "EXPENSE") return;
+  async update(transaction: any): Promise<void> {
+    // If transaction is not a BaseTransaction or not an EXPENSE, ignore.
+    if (!transaction || typeof transaction.getType !== 'function' || transaction.getType() !== "EXPENSE") return;
 
     const { userId, categoryId } = transaction;
 

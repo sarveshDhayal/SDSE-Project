@@ -3,6 +3,7 @@ import { Category } from "../models/Category.js";
 import { PrismaService } from "../services/PrismaService.js";
 import { CategoryMapper } from "./mappers/CategoryMapper.js";
 import { type Category as PrismaCategory, type Transaction as PrismaTransaction } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 export class CategoryRepository implements IBaseRepository<Category> {
   private prisma = PrismaService.getInstance();
@@ -40,7 +41,31 @@ export class CategoryRepository implements IBaseRepository<Category> {
   }
 
   async findByUserId(userId: string): Promise<Category[]> {
+    console.log(`[CategoryRepository] Fetching categories for userId: ${userId}`);
     const items = await this.prisma.category.findMany({ where: { userId } });
+    
+    // If no categories coexist, seed some defaults
+    if (items.length === 0) {
+      console.log(`[CategoryRepository] No categories found. Seeding defaults for ${userId}...`);
+      const defaults = ["Food", "Transport", "Rent", "Salary", "Entertainment", "Shopping"];
+      try {
+        for (const name of defaults) {
+          await this.prisma.category.create({
+            data: {
+              id: uuidv4(),
+              name,
+              userId
+            }
+          });
+        }
+        console.log(`[CategoryRepository] Seeding successful.`);
+        return this.findByUserId(userId);
+      } catch (error) {
+        console.error(`[CategoryRepository] Seeding failed:`, error);
+        throw error;
+      }
+    }
+
     return items.map((item: PrismaCategory) => CategoryMapper.toDomain(item));
   }
 }

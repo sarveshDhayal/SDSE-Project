@@ -14,7 +14,7 @@ async function verify() {
   console.log("🚀 Starting Full Project Verification...");
 
   // 1. Setup Services and Observer Chain
-  const transactionService = new TransactionService();
+  const transactionService = TransactionService.getInstance();
   const budgetMonitor = new BudgetMonitor();
   const alertNotifier = new BudgetAlertNotifier();
 

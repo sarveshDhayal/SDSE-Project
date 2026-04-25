@@ -2,22 +2,18 @@ import { TransactionService } from "./TransactionService.js";
 import { ReportBuilder } from "../patterns/ReportBuilder.js";
 import { Report } from "../models/Report.js";
 import { v4 as uuidv4 } from "uuid";
-import { BaseService } from "./BaseService.js";
 
-export class AnalyticalReportService extends BaseService {
+export class AnalyticalReportService {
   private transactionService: TransactionService;
 
   constructor() {
-    super();
-    this.transactionService = new TransactionService();
+    this.transactionService = TransactionService.getInstance();
   }
 
   /**
    * Generates a comprehensive monthly report for a user
    */
   async generateMonthlyReport(userId: string, month: number, year: number): Promise<Report> {
-    this.log("Generating monthly report", { userId, month, year });
-    
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0); // Last day of month
 
@@ -37,7 +33,6 @@ export class AnalyticalReportService extends BaseService {
       .calculateStatistics()
       .build();
 
-    this.log("Report generated successfully", { reportId: report.id });
     return report;
   }
 }
