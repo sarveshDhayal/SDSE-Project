@@ -3,11 +3,19 @@ import { BaseTransaction } from "../models/BaseTransaction.js";
 import { Subject, type Observer } from "../patterns/Observer.js";
 
 export class TransactionService extends Subject {
+  private static instance: TransactionService;
   private transactionRepository: TransactionRepository;
 
-  constructor() {
+  private constructor() {
     super();
     this.transactionRepository = new TransactionRepository();
+  }
+
+  public static getInstance(): TransactionService {
+    if (!TransactionService.instance) {
+      TransactionService.instance = new TransactionService();
+    }
+    return TransactionService.instance;
   }
 
   async addTransaction(transaction: BaseTransaction): Promise<BaseTransaction> {
@@ -32,7 +40,7 @@ export class TransactionService extends Subject {
   async deleteTransaction(id: string): Promise<boolean> {
     const deleted = await this.transactionRepository.delete(id);
     if (deleted) {
-      this.notify(null);
+      this.notify({ type: 'DELETED', id });
     }
     return deleted;
   }

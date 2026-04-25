@@ -46,4 +46,19 @@ export class Report {
   }
 
   get transactions(): BaseTransaction[] { return [...this._transactions]; }
+
+  toJSON() {
+    return {
+      id: this.id,
+      userId: this.userId,
+      totalIncome: this.totalIncome,
+      totalExpense: this.totalExpense,
+      balance: this.balance,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      transactions: this.transactions.map(t => typeof (t as any).toJSON === 'function' ? (t as any).toJSON() : t),
+      categoryBreakdown: this.categoryBreakdown,
+      savingsRate: this.savingsRate
+    };
+  }
 }

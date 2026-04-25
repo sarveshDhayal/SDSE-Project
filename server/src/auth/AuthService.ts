@@ -57,9 +57,30 @@ export class AuthService {
   }
 
   /**
+   * Mock login for demo purposes
+   */
+  /**
+   * Mock login for demo purposes
+   */
+  async loginDemo(email: string, name: string): Promise<{ user: User; token: string }> {
+    const user = await this.userRepository.upsertGoogleUser({
+      email,
+      name,
+      googleId: "demo-google-id",
+    });
+
+    // Ensure they have default categories immediately
+    const categoryRepo = new (await import("../repositories/CategoryRepository.js")).CategoryRepository();
+    await categoryRepo.findByUserId(user.id);
+
+    const token = this.generateAppToken(user.id);
+    return { user, token };
+  }
+
+  /**
    * Generates a custom JWT for the application session
    */
-  private generateAppToken(userId: string): string {
+  public generateAppToken(userId: string): string {
     const secret = process.env.JWT_SECRET || "default_secret_change_me";
     return jwt.sign({ userId }, secret, { expiresIn: "7d" });
   }

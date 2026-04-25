@@ -7,7 +7,7 @@ export class AnalyticalReportService {
   private transactionService: TransactionService;
 
   constructor() {
-    this.transactionService = new TransactionService();
+    this.transactionService = TransactionService.getInstance();
   }
 
   /**

@@ -33,4 +33,16 @@ export abstract class BaseTransaction {
   get userId(): string { return this._userId; }
 
   abstract getType(): string;
+
+  toJSON() {
+    return {
+      id: this.id,
+      amount: this.amount,
+      date: this.date,
+      description: this.description,
+      categoryId: this.categoryId,
+      userId: this.userId,
+      type: this.getType()
+    };
+  }
 }
