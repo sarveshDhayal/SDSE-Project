@@ -1,9 +1,15 @@
+import { BaseService } from "../services/BaseService.js";
+
 export interface Observer {
   update(data: any): void;
 }
 
-export abstract class Subject {
+export abstract class Subject extends BaseService {
   private observers: Observer[] = [];
+
+  constructor() {
+    super();
+  }
 
   attach(observer: Observer): void {
     const isExist = this.observers.includes(observer);
@@ -18,6 +24,7 @@ export abstract class Subject {
   }
 
   notify(data: any): void {
+    this.log("Notifying observers", { count: this.observers.length });
     for (const observer of this.observers) {
       observer.update(data);
     }
