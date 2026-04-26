@@ -19,21 +19,22 @@ Finaura is split into two primary pieces that communicate seamlessly: the **Fron
 ### 1. The Frontend (React/Vite)
 - **Role**: Handles the User Interface (UI), dynamic spending charts, high-contrast financial cards, and interactivity.
 - **Tech Stack**: **React (TypeScript)** for robust components, **Tailwind CSS** for a premium "dark-mode" aesthetic, **Vite** for ultra-fast compiling, and **Recharts** for interactive financial data visualization.
+- **Authentication**: Supports seamless **Google Sign-In** via Google OAuth as well as a "Demo User" mode for quick testing.
 - **Key Experience**: Features smooth micro-animations powered by **Framer Motion** and responsive navigation for both desktop and mobile layouts.
 
 ### 2. The Backend (Node.js / Express)
 - **Role**: Acts as the data crunching engine. The frontend asks the backend questions (e.g., "What is my current savings rate?" or "Am I over budget in Food?"), and the backend performs the math, talks to the intelligence models, and sends the answers back.
-- **Tech Stack**: **Node.js**, **Express.js** (for efficient request handling), and **TypeScript** for end-to-end type safety.
+- **Tech Stack**: **Node.js**, **Express.js** (for efficient request handling), and **TypeScript** built strictly using **Object-Oriented Programming (OOP)** patterns.
 - **Intelligence Engine**: Integrated **Aura AI Service** for natural language processing of financial queries.
-- **Database**: Uses **MySQL** (via **Prisma ORM**) to permanently remember your transactions, budget limits, and user history.
+- **Database**: Uses **Neon Serverless PostgreSQL** (via **Prisma ORM**) to securely and permanently remember your transactions, budget limits, and user history.
 
 ---
 
 ## ⚙️ How Data Flows (The Data Pipeline)
 How exactly does Finaura decide your financial health? It follows a strict 4-step data pipeline built into the core:
 
-### Step 1: Data Ingestion (Prisma & MySQL)
-When you add a transaction, the backend securely stores it in our relational database. All entities (Users, Transactions, Categories, Budgets) are strictly modeled to ensure zero data loss and perfect consistency.
+### Step 1: Data Ingestion (Prisma & PostgreSQL)
+When you log in via Google or Demo mode and add a transaction, the backend securely stores it in our cloud relational database. All entities (Users, Transactions, Budgets) are strictly modeled to ensure zero data loss and perfect consistency.
 
 ### Step 2: Technical Aggregation (DataAggregationService)
 Once we have the raw data, we feed it into our mathematical engine. We calculate several key metrics:
@@ -60,15 +61,17 @@ If you're looking around the files, here's the mapping of the system's core comp
 ```text
 SDSE-Project/
 ├── client/                        # 🎨 Frontend (React/Vite)
+│   ├── .env                       # Client environment variables (Google Client ID)
 │   ├── src/
 │   │   ├── components/            # UI components (AIAssistant, Card, ProgressBar, etc.)
 │   │   ├── pages/                 # Full screen views (Dashboard, Transactions, Budgets, Reports)
 │   │   ├── assets/                # Static assets and brand imagery
-│   │   ├── App.tsx                # Main application controller and routing
+│   │   ├── App.tsx                # Main application controller, routing, and Auth flow
 │   │   └── index.css              # Global styles and design system tokens
 │   └── package.json               # Frontend dependencies and scripts
 │
 ├── server/                        # 🧠 Backend (Node.js/Express)
+│   ├── .env                       # Server environment variables (Database URL, JWT, Google Client ID)
 │   ├── src/
 │   │   ├── auth/                  # Security and User authentication services
 │   │   ├── models/                # Domain models (User, Transaction, Budget, Report)
@@ -88,16 +91,32 @@ SDSE-Project/
 ## 🚀 Getting Started Locally
 Want to run Finaura on your own machine? Follow these simple steps.
 
+### 0. Environment Setup
+Create an `.env` file in **both** the `client` and `server` directories before starting.
+
+**`client/.env`**:
+```env
+VITE_GOOGLE_CLIENT_ID="your_google_client_id_here.apps.googleusercontent.com"
+```
+
+**`server/.env`**:
+```env
+DATABASE_URL="postgresql://[user]:[password]@[neon-host]/[db]?sslmode=require"
+GOOGLE_CLIENT_ID="your_google_client_id_here.apps.googleusercontent.com"
+JWT_SECRET="super_secret_jwt_string"
+```
+
 ### 1. Start the Backend
-You need Node.js and a MySQL instance running. Go to the server directory:
+You need Node.js installed. Open a terminal and go to the server directory:
 
 ```bash
 cd server
 npm install                    # Install the analytics & server tools
-npx prisma db push             # Sync your local database schema
+npx prisma generate            # Generate the Prisma Client
+npx prisma db push             # Sync your schema to your Neon Postgres database
 npm run dev                    # Start the backend server
 ```
-Your backend is now running!
+Your backend is now running on `http://localhost:3001`!
 
 ### 2. Start the Frontend
 Open a new terminal window (keep the backend running in the first one).
