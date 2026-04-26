@@ -1,8 +1,7 @@
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,8 +23,6 @@ model Category {
   name         String
   userId       String
   user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
-  budgets      Budget[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
@@ -37,7 +34,6 @@ model Transaction {
   description String?
   type        String   // INCOME or EXPENSE
   categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
@@ -49,7 +45,6 @@ model Budget {
   amount     Float
   period     String   // MONTHLY, WEEKLY, etc.
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())

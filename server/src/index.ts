@@ -66,15 +66,20 @@ app.post("/api/ai/chat", async (req, res) => {
 // -------------- TRANSACTIONS API --------------
 app.post("/api/transactions", async (req, res) => {
   try {
-    const { amount, date, description, type, categoryId, userId } = req.body;
+    const { amount, date, description, type, category, categoryId, userId } = req.body;
     let transaction;
     const id = uuidv4();
     const tDate = date ? new Date(date) : new Date();
+    const resolvedCategory = categoryId || category;
+
+    if (!resolvedCategory) {
+      return res.status(400).json({ error: "Category is required." });
+    }
 
     if (type === "INCOME") {
-      transaction = new IncomeTransaction(id, amount, tDate, description, categoryId, userId);
+      transaction = new IncomeTransaction(id, amount, tDate, description, resolvedCategory, userId);
     } else if (type === "EXPENSE") {
-      transaction = new ExpenseTransaction(id, amount, tDate, description, categoryId, userId);
+      transaction = new ExpenseTransaction(id, amount, tDate, description, resolvedCategory, userId);
     } else {
       return res.status(400).json({ error: "Invalid transaction type." });
     }

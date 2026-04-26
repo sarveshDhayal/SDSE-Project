@@ -1,6 +1,6 @@
 
-// Prisma config — using MySQL
-// Make sure your .env has: DATABASE_URL="mysql://root:password@localhost:3306/smartfinance"
+// Prisma config — using PostgreSQL (Neon)
+// Make sure your .env has: DATABASE_URL="postgres://user:password@neon.tech/db"
 import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 

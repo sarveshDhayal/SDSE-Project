@@ -196,14 +196,22 @@ function LoginScreen(props: any) {
             </form>
 
             <div className="mt-8 flex flex-col items-center gap-4">
-              <GoogleLogin
-                onSuccess={props.onGoogleSuccess}
-                onError={() => props.onStandardAuth({ preventDefault: () => {} } as any)}
-                theme="outline"
-                shape="pill"
-                width="100%"
-              />
-              <button onClick={() => props.onStandardAuth({ preventDefault: () => {} })} className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest hover:text-black">Enter as Demo User</button>
+              {clientId && !clientId.includes('dummy') && !clientId.includes('your_google_client_id_here') ? (
+                <GoogleLogin
+                  onSuccess={props.onGoogleSuccess}
+                  onError={() => props.onStandardAuth({ preventDefault: () => {} } as any)}
+                  theme="outline"
+                  shape="pill"
+                  width="100%"
+                />
+              ) : (
+                <div className="text-xs p-3 rounded-lg border border-[var(--accent-danger)]/30 bg-[var(--accent-danger)]/5 text-[var(--accent-danger)] font-bold w-full text-center">
+                  Google Auth requires VITE_GOOGLE_CLIENT_ID in .env
+                </div>
+              )}
+              <button onClick={(e) => { e.preventDefault(); props.onStandardAuth(e); }} className="w-full py-4 rounded-xl border-2 border-[var(--border-color)] text-sm font-black text-[var(--text-primary)] uppercase tracking-widest hover:border-[var(--brand-accent)] hover:text-[var(--brand-accent)] transition-all">
+                Enter as Demo User
+              </button>
             </div>
           </div>
         </div>
@@ -312,17 +320,19 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   renderPage() {
-    const { activeRoute, viewDate } = this.state;
+    const { activeRoute, viewDate, userContext } = this.state;
+    const currentUserId = userContext?.id || DEMO_USER_ID;
+
     if (activeRoute == 'dashboard') {
-      return <Dashboard userId={DEMO_USER_ID} viewDate={viewDate} />;
+      return <Dashboard userId={currentUserId} viewDate={viewDate} />;
     } else if (activeRoute == 'transactions') {
-      return <Transactions userId={DEMO_USER_ID} viewDate={viewDate} />;
+      return <Transactions userId={currentUserId} viewDate={viewDate} />;
     } else if (activeRoute == 'budgets') {
-      return <Budgets userId={DEMO_USER_ID} viewDate={viewDate} />;
+      return <Budgets userId={currentUserId} viewDate={viewDate} />;
     } else if (activeRoute == 'reports') {
-      return <Reports userId={DEMO_USER_ID} viewDate={viewDate} />;
+      return <Reports userId={currentUserId} viewDate={viewDate} />;
     } else {
-      return <Dashboard userId={DEMO_USER_ID} viewDate={viewDate} />;
+      return <Dashboard userId={currentUserId} viewDate={viewDate} />;
     }
   }
 
