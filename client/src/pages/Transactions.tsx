@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Plus, ShoppingCart, Home, Car, Coffee, Music, MoreHorizontal, Zap } from 'lucide-react';
+import { Plus, ShoppingCart, Home, Car, Coffee, Music, MoreHorizontal, Zap, Briefcase } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Modal } from '../components/Modal';
@@ -13,6 +13,7 @@ const CATEGORY_ICONS: Record<string, { icon: React.ReactNode; color: string; bg:
   'Utilities':  { icon: <Zap size={18}/>,           color: '#8E24AA', bg: '#F3E5F5' },
   'Coffee':     { icon: <Coffee size={18}/>,        color: '#6D4C41', bg: '#EFEBE9' },
   'Entertainment': { icon: <Music size={18}/>,      color: '#D81B60', bg: '#FCE4EC' },
+  'Salary':     { icon: <Briefcase size={18}/>,     color: '#00796B', bg: '#E0F2F1' },
 };
 
 interface Transaction {
