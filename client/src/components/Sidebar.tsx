@@ -17,7 +17,7 @@ const Sidebar: React.FC = () => {
       <div className="sidebar-header">
         <div className="logo-container">
           <Wallet className="logo-icon" />
-          <span className="logo-text">Emphor Finance</span>
+          <span className="logo-text">Finaura</span>
         </div>
       </div>
 

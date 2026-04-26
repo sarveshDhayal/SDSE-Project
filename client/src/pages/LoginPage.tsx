@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
           <div className="logo-badge">
             <Wallet size={32} />
           </div>
-          <h1>Emphor Finance</h1>
+          <h1>Finaura</h1>
           <p>Personalized wealth management at your fingertips.</p>
         </div>
 
