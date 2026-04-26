@@ -40,7 +40,7 @@ export abstract class BaseTransaction {
       amount: this.amount,
       date: this.date,
       description: this.description,
-      categoryId: this.categoryId,
+      category: this.categoryId,
       userId: this.userId,
       type: this.getType()
     };

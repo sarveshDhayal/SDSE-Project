@@ -40,4 +40,13 @@ export class User {
   set googleId(value: string | null) {
     this._googleId = value;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      googleId: this.googleId
+    };
+  }
 }
