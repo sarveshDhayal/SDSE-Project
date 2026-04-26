@@ -121,11 +121,18 @@ function TopHeader(props: any) {
           </div>
         </div>
 
-        <div className="flex-1 flex justify-end gap-3">
-          <button className="p-1"><Bell size={24} /></button>
-          <button onClick={props.onLogout} className="p-1 lg:hidden"><LogOut size={24} /></button>
-          <button onClick={props.toggleTheme} className="lg:hidden p-1">
+        <div className="flex-1 flex justify-end items-center gap-4">
+          <div className="hidden sm:flex flex-col items-end mr-2">
+            <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Logged in as</span>
+            <span className="text-xs font-black tracking-tight">{props.userContext?.name || 'User'}</span>
+          </div>
+          
+          <button onClick={props.toggleTheme} className="p-1.5 hover:bg-white/10 rounded-xl transition-all">
              {props.theme == 'light' ? <Moon size={20} /> : <Sun size={20} />}
+          </button>
+          
+          <button onClick={props.onLogout} className="flex items-center gap-2 p-1.5 px-3 bg-white/10 hover:bg-[var(--accent-danger)] rounded-xl transition-all text-white font-bold text-[10px] uppercase tracking-widest">
+            <LogOut size={16} /> <span className="hidden sm:inline">Sign Out</span>
           </button>
         </div>
       </div>
@@ -260,11 +267,19 @@ export default class App extends Component<AppProps, AppState> {
   componentDidMount() {
     document.body.setAttribute('data-theme', this.state.theme);
     const token = localStorage.getItem('appToken');
+    const savedUser = localStorage.getItem('userContext');
+    
     if (token) {
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      let context = { name: 'Demo User', id: DEMO_USER_ID };
+      if (savedUser) {
+        try {
+          context = JSON.parse(savedUser);
+        } catch (e) {}
+      }
       this.setState({ 
         isAuthenticated: true,
-        userContext: { name: 'Demo User', id: DEMO_USER_ID }
+        userContext: context
       });
     }
   }
@@ -288,6 +303,7 @@ export default class App extends Component<AppProps, AppState> {
     try {
       const { data } = await apiClient.post('/auth/google', { idToken: cred.credential });
       localStorage.setItem('appToken', data.token);
+      localStorage.setItem('userContext', JSON.stringify(data.user));
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       this.setState({ userContext: data.user, isAuthenticated: true });
     } catch {
@@ -300,6 +316,7 @@ export default class App extends Component<AppProps, AppState> {
 
   handleLogout() {
     localStorage.removeItem('appToken');
+    localStorage.removeItem('userContext');
     this.setState({ isAuthenticated: false, userContext: null });
   }
 
