@@ -47,12 +47,12 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
   }
 
   loadData() {
-    axios.get(`http://localhost:3001/api/budgets/${this.props.userId}`)
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/budgets/${this.props.userId}`)
       .then((bRes) => {
         if (bRes.data != null) {
           this.setState({ budgets: bRes.data });
         }
-        axios.get(`http://localhost:3001/api/transactions/${this.props.userId}`)
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/transactions/${this.props.userId}`)
           .then((tRes) => {
             if (tRes.data != null) {
               this.setState({ transactions: tRes.data });
@@ -80,7 +80,7 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
       period: 'MONTHLY'
     };
 
-    axios.post('http://localhost:3001/api/budgets', payload)
+    axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/budgets`, payload)
       .then(() => {
         this.loadData();
       });

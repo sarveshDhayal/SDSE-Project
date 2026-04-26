@@ -79,7 +79,7 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
   }
 
   loadData() {
-    axios.get(`http://localhost:3001/api/transactions/${this.props.userId}`)
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/transactions/${this.props.userId}`)
       .then((res) => {
         this.setState({ transactions: res.data || [] });
       })
@@ -112,7 +112,7 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
       userId: userId
     };
 
-    axios.post('http://localhost:3001/api/transactions', payload)
+    axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/transactions`, payload)
       .then(() => {
         this.loadData();
       });

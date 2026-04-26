@@ -44,7 +44,7 @@ export class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   loadData() {
-    axios.get(`http://localhost:3001/api/transactions/${this.props.userId}`)
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/transactions/${this.props.userId}`)
       .then((res) => {
         this.setState({ transactions: res.data || [] });
       })

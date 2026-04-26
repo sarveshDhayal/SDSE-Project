@@ -44,7 +44,7 @@ export class Reports extends Component<ReportsProps, ReportsState> {
     const month = viewDate.getMonth() + 1;
     const year = viewDate.getFullYear();
     
-    axios.get(`http://localhost:3001/api/reports/${userId}`, {
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/reports/${userId}`, {
       params: { month, year }
     })
       .then((res) => {

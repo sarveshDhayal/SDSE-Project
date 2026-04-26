@@ -33,7 +33,7 @@ export function AIAssistant(props: { userId: string }) {
     setIsTyping(true);
 
     try {
-      const response = await axios.post('http://localhost:3001/api/ai/chat', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/ai/chat`, {
         userId: props.userId,
         query: input
       });
