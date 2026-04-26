@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import {
   LayoutDashboard, Receipt, PieChart, BarChart3,
-  Bell, Sun, Moon, LogOut, Menu, X, ChevronRight
+  Sun, Moon, LogOut, Menu, X, ChevronRight
 } from 'lucide-react';
 import { Dashboard } from './pages/Dashboard';
 import { Transactions } from './pages/Transactions';
