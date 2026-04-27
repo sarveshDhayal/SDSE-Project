@@ -15,9 +15,9 @@ interface BudgetsState {
   budgets: any[];
   transactions: any[];
   isOpen: boolean;
-  form: { 
-    categoryId: string; 
-    amount: string; 
+  form: {
+    categoryId: string;
+    amount: string;
   };
 }
 
@@ -30,7 +30,7 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
       isOpen: false,
       form: { categoryId: '', amount: '' }
     };
-    
+
     this.loadData = this.loadData.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.setIsOpen = this.setIsOpen.bind(this);
@@ -121,7 +121,7 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
         <div className="bg-[var(--brand-primary)] rounded-[var(--radius-xl)] p-10 shadow-lg text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-50" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-[var(--brand-accent)]/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl opacity-20" />
-          
+
           <div className="flex items-center justify-between mb-8">
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-2">Total Budget</p>
@@ -132,9 +132,9 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
               <p className="font-black text-sm uppercase text-[var(--brand-accent)]">{overallPct > 100 ? 'Limit Exceeded' : 'Safe Zone'}</p>
             </div>
           </div>
-          
-          <ProgressBar progress={overallPct} sublabel={`${overallPct.toFixed(0)}% consumed`}/>
-          
+
+          <ProgressBar progress={overallPct} sublabel={`${overallPct.toFixed(0)}% consumed`} />
+
           <div className="mt-8 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-60">
             <span>Spent: ${totalSpent.toLocaleString()}</span>
             <span>Available: ${(totalBudget - totalSpent).toLocaleString()}</span>
@@ -145,7 +145,7 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
         <div className="flex items-center justify-between px-1">
           <h3 className="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">Budget Envelopes</h3>
           <Button variant="accent" size="sm" onClick={() => this.setIsOpen(true)} className="rounded-full px-5 font-black uppercase tracking-widest text-[9px]">
-            <Plus size={14} strokeWidth={4} className="mr-1"/> New Limit
+            <Plus size={14} strokeWidth={4} className="mr-1" /> New Limit
           </Button>
         </div>
 
@@ -177,19 +177,19 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
                     </div>
                   </div>
                   <div className={`px-2.5 py-1.5 rounded-xl text-[10px] font-black ${isOver ? 'bg-[var(--accent-danger)] text-white' : 'bg-[var(--brand-accent)] text-[var(--brand-primary)]'}`}>
-                     {pct.toFixed(0)}%
+                    {pct.toFixed(0)}%
                   </div>
                 </div>
 
-                <ProgressBar progress={pct} isWarn={pct > 80} isDanger={isOver}/>
-                
+                <ProgressBar progress={pct} isWarn={pct > 80} isDanger={isOver} />
+
                 <div className="mt-6 pt-5 border-t border-[var(--border-color)] flex justify-between items-center">
-                   <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Spent: ${spent.toLocaleString()}</span>
-                   {isOver && (
-                     <span className="text-[9px] font-black text-[var(--accent-danger)] uppercase animate-pulse flex items-center gap-1 tracking-widest">
-                       <AlertTriangle size={12}/> Critical
-                     </span>
-                   )}
+                  <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Spent: ${spent.toLocaleString()}</span>
+                  {isOver && (
+                    <span className="text-[9px] font-black text-[var(--accent-danger)] uppercase animate-pulse flex items-center gap-1 tracking-widest">
+                      <AlertTriangle size={12} /> Critical
+                    </span>
+                  )}
                 </div>
               </div>
             );
@@ -198,8 +198,8 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
 
         <Modal isOpen={isOpen} onClose={() => this.setIsOpen(false)} title="New Envelope">
           <form onSubmit={this.handleAdd} className="space-y-6">
-            <Input label="Envelope Name" placeholder="ENTER CATEGORY EX: RENT" value={form.categoryId} onChange={e => this.setState({ form: { ...form, categoryId: e.target.value } })} required/>
-            <Input label="Monthly Limit Amount" type="number" placeholder="0.00" value={form.amount} onChange={e => this.setState({ form: { ...form, amount: e.target.value } })} required/>
+            <Input label="Envelope Name" placeholder="ENTER CATEGORY EX: RENT" value={form.categoryId} onChange={e => this.setState({ form: { ...form, categoryId: e.target.value } })} required />
+            <Input label="Monthly Limit Amount" type="number" placeholder="0.00" value={form.amount} onChange={e => this.setState({ form: { ...form, amount: e.target.value } })} required />
             <Button fullWidth variant="primary" size="lg" className="py-5 text-sm uppercase tracking-[0.3em] font-black">Create Envelope</Button>
           </form>
         </Modal>

@@ -43,7 +43,7 @@ export class Reports extends Component<ReportsProps, ReportsState> {
     const { userId, viewDate } = this.props;
     const month = viewDate.getMonth() + 1;
     const year = viewDate.getFullYear();
-    
+
     axios.get(`http://localhost:3001/api/reports/${userId}`, {
       params: { month, year }
     })
@@ -68,9 +68,9 @@ export class Reports extends Component<ReportsProps, ReportsState> {
     if (report != null) {
       savingsRate = (report.savingRate * 100).toFixed(0) + "%";
       insightText = `Impressive! You saved ${savingsRate} of your total income this month.`;
-      
+
       const currentMonthLabel = viewDate.toLocaleString('default', { month: 'short' });
-      
+
       chartData = [
         { month: 'Feb', income: 3900, expense: 2400 },
         { month: 'Mar', income: 4500, expense: 3100 },
@@ -85,7 +85,7 @@ export class Reports extends Component<ReportsProps, ReportsState> {
         <div className="bg-[var(--brand-primary)] rounded-[var(--radius-xl)] p-10 shadow-lg text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-50" />
           <div className="flex items-center gap-2 mb-3 opacity-60">
-            <Sparkles size={16} strokeWidth={3} className="text-[var(--brand-accent)]"/>
+            <Sparkles size={16} strokeWidth={3} className="text-[var(--brand-accent)]" />
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">FinAura AI Analyst</span>
           </div>
           <h2 className="text-3xl font-black tracking-tight leading-tight max-w-md">{insightText}</h2>
@@ -97,17 +97,17 @@ export class Reports extends Component<ReportsProps, ReportsState> {
           <Card className="p-8">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">Cash Flow Trends</h3>
-              <BarChart3 size={20} className="text-[var(--brand-accent)]"/>
+              <BarChart3 size={20} className="text-[var(--brand-accent)]" />
             </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} barGap={10} barCategoryGap="20%">
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false}/>
-                  <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} dy={10}/>
-                  <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={v => `$${v/1000}k`}/>
-                  <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: 'var(--shadow-lg)' }}/>
-                  <Bar dataKey="income" fill="var(--accent-success)" radius={[6,6,0,0]} maxBarSize={32}/>
-                  <Bar dataKey="expense" fill="var(--accent-danger)" radius={[6,6,0,0]} maxBarSize={32}/>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false} />
+                  <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} dy={10} />
+                  <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={v => `$${v / 1000}k`} />
+                  <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: 'var(--shadow-lg)' }} />
+                  <Bar dataKey="income" fill="var(--accent-success)" radius={[6, 6, 0, 0]} maxBarSize={32} />
+                  <Bar dataKey="expense" fill="var(--accent-danger)" radius={[6, 6, 0, 0]} maxBarSize={32} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -124,16 +124,16 @@ export class Reports extends Component<ReportsProps, ReportsState> {
           <Card className="p-8">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">Financial Growth</h3>
-              <TrendingUp size={20} className="text-[var(--accent-success)]"/>
+              <TrendingUp size={20} className="text-[var(--accent-success)]" />
             </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="2 2" stroke="var(--border-color)" vertical={false}/>
-                  <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} dy={10}/>
-                  <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={v => `$${v/1000}k`}/>
-                  <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: 'var(--shadow-lg)' }}/>
-                  <Line type="monotone" dataKey="income" stroke="var(--brand-accent)" strokeWidth={4} dot={{ fill:'var(--brand-accent)', r:6, strokeWidth:2, stroke:'#fff' }} activeDot={{ r:8, strokeWidth:0 }}/>
+                  <CartesianGrid strokeDasharray="2 2" stroke="var(--border-color)" vertical={false} />
+                  <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} dy={10} />
+                  <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={v => `$${v / 1000}k`} />
+                  <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: 'var(--shadow-lg)' }} />
+                  <Line type="monotone" dataKey="income" stroke="var(--brand-accent)" strokeWidth={4} dot={{ fill: 'var(--brand-accent)', r: 6, strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 8, strokeWidth: 0 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -153,7 +153,7 @@ export class Reports extends Component<ReportsProps, ReportsState> {
               if (s.status === 'success') colorClass = 'text-[var(--accent-success)]';
               if (s.status === 'danger') colorClass = 'text-[var(--accent-danger)]';
               if (s.status === 'accent') colorClass = 'text-[var(--brand-accent)]';
-              
+
               return (
                 <div key={s.label} className="bg-[var(--bg-primary)] border border-[var(--border-color)] p-7 rounded-[var(--radius-xl)] shadow-sm hover:shadow-md transition-shadow">
                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] mb-3">{s.label}</p>

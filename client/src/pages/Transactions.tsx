@@ -7,13 +7,13 @@ import { Modal } from '../components/Modal';
 import { format } from 'date-fns';
 
 const CATEGORY_ICONS: Record<string, { icon: React.ReactNode; color: string; bg: string }> = {
-  'Housing':    { icon: <Home size={18}/>,         color: '#FFB300', bg: '#FFF8E1' },
-  'Food':       { icon: <ShoppingCart size={18}/>,  color: '#43A047', bg: '#E8F5E9' },
-  'Transport':  { icon: <Car size={18}/>,           color: '#1E88E5', bg: '#E3F2FD' },
-  'Utilities':  { icon: <Zap size={18}/>,           color: '#8E24AA', bg: '#F3E5F5' },
-  'Coffee':     { icon: <Coffee size={18}/>,        color: '#6D4C41', bg: '#EFEBE9' },
-  'Entertainment': { icon: <Music size={18}/>,      color: '#D81B60', bg: '#FCE4EC' },
-  'Salary':     { icon: <Briefcase size={18}/>,     color: '#00796B', bg: '#E0F2F1' },
+  'Housing': { icon: <Home size={18} />, color: '#FFB300', bg: '#FFF8E1' },
+  'Food': { icon: <ShoppingCart size={18} />, color: '#43A047', bg: '#E8F5E9' },
+  'Transport': { icon: <Car size={18} />, color: '#1E88E5', bg: '#E3F2FD' },
+  'Utilities': { icon: <Zap size={18} />, color: '#8E24AA', bg: '#F3E5F5' },
+  'Coffee': { icon: <Coffee size={18} />, color: '#6D4C41', bg: '#EFEBE9' },
+  'Entertainment': { icon: <Music size={18} />, color: '#D81B60', bg: '#FCE4EC' },
+  'Salary': { icon: <Briefcase size={18} />, color: '#00796B', bg: '#E0F2F1' },
 };
 
 interface Transaction {
@@ -50,15 +50,15 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
       transactions: [],
       isModalOpen: false,
       filter: 'ALL',
-      form: { 
-        description: '', 
-        amount: '', 
-        type: 'EXPENSE', 
-        category: 'Food', 
-        date: props.viewDate.toISOString().split('T')[0] 
+      form: {
+        description: '',
+        amount: '',
+        type: 'EXPENSE',
+        category: 'Food',
+        date: props.viewDate.toISOString().split('T')[0]
       }
     };
-    
+
     this.loadData = this.loadData.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.setFilter = this.setFilter.bind(this);
@@ -120,12 +120,12 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
 
     this.setState({
       isModalOpen: false,
-      form: { 
-        description: '', 
-        amount: '', 
-        type: 'EXPENSE', 
-        category: 'Food', 
-        date: viewDate.toISOString().split('T')[0] 
+      form: {
+        description: '',
+        amount: '',
+        type: 'EXPENSE',
+        category: 'Food',
+        date: viewDate.toISOString().split('T')[0]
       }
     });
   }
@@ -137,26 +137,26 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
     let filtered: Transaction[] = [];
     let totalIncome = 0;
     let totalExpense = 0;
-    
+
     const targetMonth = viewDate.getMonth();
     const targetYear = viewDate.getFullYear();
 
     for (let i = 0; i < transactions.length; i++) {
       let t = transactions[i];
       let d = new Date(t.date);
-      
+
       // Filter by Month and Year
       if (d.getMonth() === targetMonth && d.getFullYear() === targetYear) {
         if (t.type == 'INCOME') totalIncome += t.amount;
         if (t.type == 'EXPENSE') totalExpense += t.amount;
-        
+
         if (filter == 'ALL' || t.type == filter) {
           filtered.push(t);
         }
       }
     }
 
-    filtered.sort(function(a, b) {
+    filtered.sort(function (a, b) {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
 
@@ -177,8 +177,8 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
         lastDateStr = dateStr;
       }
 
-      let cat = CATEGORY_ICONS[tx.category] || { icon: <MoreHorizontal size={18}/>, color: '#757575', bg: '#F5F5F5' };
-      
+      let cat = CATEGORY_ICONS[tx.category] || { icon: <MoreHorizontal size={18} />, color: '#757575', bg: '#F5F5F5' };
+
       groupedElements.push(
         <div key={tx.id} className="flex items-center gap-4 p-4 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-[var(--radius-lg)] shadow-sm mb-2">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: cat.bg, color: cat.color }}>
@@ -230,19 +230,19 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
           onClick={() => this.setModalOpen(true)}
           className="fixed bottom-44 right-6 z-30 w-16 h-16 rounded-2xl bg-[var(--brand-accent)] text-[var(--brand-primary)] flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all border-4 border-white"
         >
-          <Plus size={32} strokeWidth={3}/>
+          <Plus size={32} strokeWidth={3} />
         </button>
 
         {/* Add Modal */}
         <Modal isOpen={isModalOpen} onClose={() => this.setModalOpen(false)} title="New Entry">
           <form onSubmit={this.handleAdd} className="space-y-6">
-            <Input label="Short Description" placeholder="ENTER TITLE EX: COFFEE" value={form.description} onChange={e => this.setState({ form: { ...form, description: e.target.value } })} required/>
-            <Input label="Amount" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e => this.setState({ form: { ...form, amount: e.target.value } })} required/>
+            <Input label="Short Description" placeholder="ENTER TITLE EX: COFFEE" value={form.description} onChange={e => this.setState({ form: { ...form, description: e.target.value } })} required />
+            <Input label="Amount" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e => this.setState({ form: { ...form, amount: e.target.value } })} required />
 
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">Movement Type</label>
               <div className="grid grid-cols-2 gap-4">
-                {(['EXPENSE','INCOME'] as const).map(t => (
+                {(['EXPENSE', 'INCOME'] as const).map(t => (
                   <button type="button" key={t} onClick={() => this.setState({ form: { ...form, type: t } })}
                     className={`py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${form.type === t ? 'bg-[var(--brand-primary)] text-white shadow-lg scale-[1.02]' : 'bg-[var(--bg-secondary)] text-[var(--text-muted)] border border-[var(--border-color)]'}`}>
                     {t}
@@ -254,7 +254,7 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">Select Category</label>
               <div className="grid grid-cols-3 gap-2">
-                {['Food','Housing','Transport','Utilities','Coffee','Entertainment'].map(cat => (
+                {['Food', 'Housing', 'Transport', 'Utilities', 'Coffee', 'Entertainment'].map(cat => (
                   <button type="button" key={cat} onClick={() => this.setState({ form: { ...form, category: cat } })}
                     className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${form.category === cat ? 'border-[var(--brand-accent)] bg-[var(--brand-accent)]/10 text-[var(--brand-primary)]' : 'border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-muted)] opacity-60'}`}>
                     {React.cloneElement(CATEGORY_ICONS[cat].icon as React.ReactElement, { size: 24, strokeWidth: 2.5 } as any)}
@@ -264,8 +264,8 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
               </div>
             </div>
 
-            <Input label="Transaction Date" type="date" value={form.date} onChange={e => this.setState({ form: { ...form, date: e.target.value } })} required/>
-            
+            <Input label="Transaction Date" type="date" value={form.date} onChange={e => this.setState({ form: { ...form, date: e.target.value } })} required />
+
             <Button fullWidth variant="primary" size="lg" className="py-5 text-sm uppercase tracking-[0.3em] font-black">Add Entry</Button>
           </form>
         </Modal>
