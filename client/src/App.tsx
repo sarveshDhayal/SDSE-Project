@@ -11,7 +11,8 @@ import { Budgets } from './pages/Budgets';
 import { Reports } from './pages/Reports';
 import { AIAssistant } from './components/AIAssistant';
 
-const apiClient = axios.create({ baseURL: 'http://localhost:3001/api' });
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const apiClient = axios.create({ baseURL: API_BASE_URL });
 const DEMO_USER_ID = "1";
 
 const NAV_ITEMS = [

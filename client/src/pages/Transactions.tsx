@@ -6,6 +6,8 @@ import { Input } from '../components/Input';
 import { Modal } from '../components/Modal';
 import { format } from 'date-fns';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
 const CATEGORY_ICONS: Record<string, { icon: React.ReactNode; color: string; bg: string }> = {
   'Housing': { icon: <Home size={18} />, color: '#FFB300', bg: '#FFF8E1' },
   'Food': { icon: <ShoppingCart size={18} />, color: '#43A047', bg: '#E8F5E9' },
@@ -80,7 +82,7 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
   }
 
   loadData() {
-    axios.get(`http://localhost:3001/api/transactions/${this.props.userId}`)
+    axios.get(`${API_BASE_URL}/transactions/${this.props.userId}`)
       .then((res) => {
         this.setState({ transactions: res.data || [] });
       })
