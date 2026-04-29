@@ -198,8 +198,8 @@ export class Budgets extends Component<BudgetsProps, BudgetsState> {
 
         <Modal isOpen={isOpen} onClose={() => this.setIsOpen(false)} title="New Envelope">
           <form onSubmit={this.handleAdd} className="space-y-6">
-            <Input label="Envelope Name" placeholder="ENTER CATEGORY EX: RENT" value={form.categoryId} onChange={e => this.setState({ form: { ...form, categoryId: e.target.value } })} required />
-            <Input label="Monthly Limit Amount" type="number" placeholder="0.00" value={form.amount} onChange={e => this.setState({ form: { ...form, amount: e.target.value } })} required />
+            <Input label="Envelope Name" placeholder="ENTER CATEGORY EX: RENT" value={form.categoryId} onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ form: { ...form, categoryId: e.target.value } })} required />
+            <Input label="Monthly Limit Amount" type="number" placeholder="0.00" value={form.amount} onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ form: { ...form, amount: e.target.value } })} required />
             <Button fullWidth variant="primary" size="lg" className="py-5 text-sm uppercase tracking-[0.3em] font-black">Create Envelope</Button>
           </form>
         </Modal>

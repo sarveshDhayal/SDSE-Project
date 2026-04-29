@@ -238,8 +238,8 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
         {/* Add Modal */}
         <Modal isOpen={isModalOpen} onClose={() => this.setModalOpen(false)} title="New Entry">
           <form onSubmit={this.handleAdd} className="space-y-6">
-            <Input label="Short Description" placeholder="ENTER TITLE EX: COFFEE" value={form.description} onChange={e => this.setState({ form: { ...form, description: e.target.value } })} required />
-            <Input label="Amount" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e => this.setState({ form: { ...form, amount: e.target.value } })} required />
+            <Input label="Short Description" placeholder="ENTER TITLE EX: COFFEE" value={form.description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ form: { ...form, description: e.target.value } })} required />
+            <Input label="Amount" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ form: { ...form, amount: e.target.value } })} required />
 
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">Movement Type</label>
@@ -266,7 +266,7 @@ export class Transactions extends Component<TransactionsProps, TransactionsState
               </div>
             </div>
 
-            <Input label="Transaction Date" type="date" value={form.date} onChange={e => this.setState({ form: { ...form, date: e.target.value } })} required />
+            <Input label="Transaction Date" type="date" value={form.date} onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ form: { ...form, date: e.target.value } })} required />
 
             <Button fullWidth variant="primary" size="lg" className="py-5 text-sm uppercase tracking-[0.3em] font-black">Add Entry</Button>
           </form>
