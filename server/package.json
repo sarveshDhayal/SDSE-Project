@@ -7,7 +7,7 @@
     "dev": "tsx watch src/index.ts",
     "generate": "prisma generate",
     "db:push": "prisma db push",
-    "build": "tsc",
+    "build": "npm install && prisma generate",
     "test": "vitest run"
   },
   "keywords": [],
