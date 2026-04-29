@@ -133,4 +133,4 @@ Your frontend is now live! Look at your terminal for the `localhost` link to see
 ## 👨‍💻 Project Philosophy
 Finaura represents the bridge between beautiful, responsive web design and complex financial architecture. It is designed to grow with your data while maintaining the speed and elegance of a premium product.
 
-**Happy tracking, and here's to a more intelligent financial future!**
+**Happy tracking, and here's to a more intelligent financial future!**# test
